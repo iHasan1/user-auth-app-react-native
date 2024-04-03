@@ -18,8 +18,8 @@ function SignupScreen() {
       authCtx.authenticate(token);
     } catch (error) {
       Alert.alert("Authentication failed!", "Please check your credentials");
+      setIsAuthenticating(false);
     }
-    setIsAuthenticating(false);
   }
 
   if (isAuthenticating) {

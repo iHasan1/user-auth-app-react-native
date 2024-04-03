@@ -3,18 +3,26 @@ import Constants from "expo-constants";
 
 const { apiKey } = Constants.expoConfig.extra;
 
-export async function createUser(email, password) {
-  console.log(apiKey);
+async function authenticate(mode, email, password) {
+  const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${apiKey}`;
+
   try {
-    const response = await axios.post(
-      `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`,
-      {
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      }
-    );
+    const response = await axios.post(url, {
+      email,
+      password,
+      returnSecureToken: true,
+    });
+
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function createUser(email, password) {
+  await authenticate("signUp", email, password);
+}
+
+export async function login(email, password) {
+  await authenticate("signInWithPassword", email, password);
 }
